@@ -32,6 +32,7 @@ class Main
       Main.menu_start
     else
       puts "didn't know input"
+      Main.menu_new
     end
   end
 
@@ -49,6 +50,7 @@ class Main
       Main.start_play
     else
       puts "didn't know input"
+      Main.menu_new
     end
   end
 
@@ -67,6 +69,7 @@ class Main
       Main.start_play
     else
       puts "didn't know input"
+      Main.menu_new
     end
     puts " # ============================== #
          # Welcome to the Battle Arena #
@@ -91,13 +94,13 @@ class Main
          # ------------------------------------------------- ---- #
          # * Max player 2 or 3 #
          # ------------------------------------------------- ---- #"
-    n=0
-    while n < 2 do
       puts "# Put Player Name:"
-      @name_p = gets.chomp
-      @players[@name_p]= Player.new(@name_p)
-      n=n+1
-    end
+      @player_1 = gets.chomp
+      @players[@player_1]= Player.new(@player_1)
+      puts "# Put Player Name:"
+      @player_2 = gets.chomp
+      @players[@player_2]= Player.new(@player_2)
+
     puts "# Current Player #"
     Main.loop_player
     puts "# * Max player 2 #"
@@ -119,27 +122,43 @@ class Main
     puts "# ------------------------------ #"
     puts "Battle Start:"
     puts "who will attack: "
-    player_1 = gets.chomp
-    @players[player_1]= Player.new(player_1)
+    @manna = 40
+    @blood = 100
+    while @manna > 0 or @blood > 0 do
+    @player_1 = gets.chomp
+    @players[@name_p]= Player.new(@player_1)
     puts "who attacked: "
-    player_2 = gets.chomp
-    @players[player_2]= Player.new(player_2)
-    puts "who will attack: #{@players[player_1].name}"
-    puts "who attacked: #{@players[player_2].name}"
-    if @players[player_1].manna >= 0 and @players[player_2].blood >= 0 
-      puts "who will attack: #{@players[player_1].name}"
-      puts "who attacked: #{@players[player_2].name}"
-      puts "#{@players[player_1].manna}"
-      puts "#{@players[player_2].blood}"
-      @players[player_1].manna -=10
-      @players[player_2].blood -=25
-      puts "Description:"
-      @players.each do |key, p|
-        puts "name: #{@players[key].name}, blood: #{@players[key].blood}, manna: #{@players[key].manna}"
-      end
-     else
+    @player_2 = gets.chomp
+    @players[@name_p]= Player.new(@player_2)
+    if @players[@player_1].manna > 10 or @players[@player_2].blood > 25
+      Main.game
+      else
       puts "Game Over"
+      puts "Congratulation #{@players[@player_1].name} is won!"
+      puts "==============================================="
+      puts "==============================================="
+      Main.menu_new
     end
+    Player.attack
+    Player.defend
+    end
+  end
+  
+  def self.game
+    puts "=========================================="
+      puts "who will attack: #{@players[@player_1].name}"
+      puts "who attacked: #{@players[@player_2].name}"
+      @players[@player_1].manna -=10
+      @players[@player_2].blood -=25
+      puts "Manna #{@players[@player_1].name} #{@players[@player_1].manna}"
+      puts "Blood #{@players[@player_2].name} #{@players[@player_2].blood}"
+      puts "--------------------------------------------"
+      puts "Description:"
+      puts "Name: #{@players[@player_1].name}, blood: #{@players[@player_1].blood}, manna: #{@players[@player_1].manna}"
+      puts "Name: #{@players[@player_2].name}, blood: #{@players[@player_2].blood}, manna: #{@players[@player_2].manna}"
+
+     Main.start_play
+  end
 end
 
 Main.menu_new
